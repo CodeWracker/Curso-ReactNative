@@ -1,19 +1,15 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 export default class Appp extends Component {
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          borderWidth: 5,
-          borderColor: "red"
-        }}
-      >
-        <View style={[{ flex: 1, backgroundColor: "blue" }]}></View>
-        <View style={[{ flex: 1, backgroundColor: "orange" }]}></View>
+      <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ backgroundColor: "red" }} />
+        <View style={{ height: 70, backgroundColor: "red" }}></View>
+        <View style={{ flex: 1, backgroundColor: "blue" }}></View>
+        <View style={{ height: 70, backgroundColor: "black" }}></View>
+        <SafeAreaView style={{ backgroundColor: "black" }} />
       </View>
     );
   }
