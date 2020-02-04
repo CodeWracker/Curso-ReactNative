@@ -2,6 +2,15 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 export default class Appp extends Component {
+  constructor() {
+    super();
+    this.state = {
+      totalCount: 0,
+      readingCount: 0,
+      readCount: 0
+    };
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -30,19 +39,19 @@ export default class Appp extends Component {
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
             <Text style={{ fontSize: 20 }}>Total</Text>
-            <Text>0</Text>
+            <Text>{this.state.totalCount}</Text>
           </View>
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
             <Text style={{ fontSize: 20 }}>Reading</Text>
-            <Text>0</Text>
+            <Text>{this.state.readingCount}</Text>
           </View>
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
             <Text style={{ fontSize: 20 }}>Read</Text>
-            <Text>0</Text>
+            <Text>{this.state.readCount}</Text>
           </View>
         </View>
         <SafeAreaView />
