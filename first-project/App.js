@@ -18,7 +18,9 @@ export default class Appp extends Component {
       totalCount: 0,
       readingCount: 0,
       readCount: 0,
-      isAddNewBookVisible: false
+      isAddNewBookVisible: false,
+      textInputData: "",
+      books: []
     };
   }
 
@@ -27,6 +29,18 @@ export default class Appp extends Component {
   };
   hideAddNewBook = () => {
     this.setState({ isAddNewBookVisible: false });
+  };
+  addBook = book => {
+    this.setState(
+      (state, props) => ({
+        books: [...state.books, book],
+        totalCount: state.totalCount + 1,
+        readingCount: state.readingCount + 1
+      }),
+      () => {
+        console.log(this.state.books);
+      }
+    );
   };
 
   render() {
@@ -51,8 +65,11 @@ export default class Appp extends Component {
                 style={{ flex: 1, backgroundColor: "#ececec" }}
                 placeholder="Enter Book Name"
                 placeholderTextColor="grey"
+                onChangeText={text => this.setState({ textInputData: text })}
               ></TextInput>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.addBook(this.state.textInputData)}
+              >
                 <View
                   style={{
                     width: 50,
