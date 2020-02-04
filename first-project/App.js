@@ -17,9 +17,17 @@ export default class Appp extends Component {
     this.state = {
       totalCount: 0,
       readingCount: 0,
-      readCount: 0
+      readCount: 0,
+      isAddNewBookVisible: false
     };
   }
+
+  showAddNewBook = () => {
+    this.setState({ isAddNewBookVisible: true });
+  };
+  hideAddNewBook = () => {
+    this.setState({ isAddNewBookVisible: false });
+  };
 
   render() {
     return (
@@ -37,41 +45,45 @@ export default class Appp extends Component {
           <Text style={{ fontSize: 24 }}>Book Worm</Text>
         </View>
         <View style={{ flex: 1 }}>
-          <View style={{ height: 50, flexDirection: "row" }}>
-            <TextInput
-              style={{ flex: 1, backgroundColor: "#ececec" }}
-              placeholder="Enter Book Name"
-              placeholderTextColor="grey"
-            ></TextInput>
-            <TouchableOpacity>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#a5deba",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <Ionicons name="ios-checkmark" color="white" size={40} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#deada5",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <Ionicons name="ios-close" color="white" size={40} />
-              </View>
-            </TouchableOpacity>
-          </View>
+          {this.state.isAddNewBookVisible && (
+            <View style={{ height: 50, flexDirection: "row" }}>
+              <TextInput
+                style={{ flex: 1, backgroundColor: "#ececec" }}
+                placeholder="Enter Book Name"
+                placeholderTextColor="grey"
+              ></TextInput>
+              <TouchableOpacity>
+                <View
+                  style={{
+                    width: 50,
+                    height: 50,
+                    backgroundColor: "#a5deba",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Ionicons name="ios-checkmark" color="white" size={40} />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.hideAddNewBook}>
+                <View
+                  style={{
+                    width: 50,
+                    height: 50,
+                    backgroundColor: "#deada5",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Ionicons name="ios-close" color="white" size={40} />
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+
           <TouchableOpacity
             style={{ position: "absolute", bottom: 20, right: 20 }}
+            onPress={this.showAddNewBook}
           >
             <View
               style={{
