@@ -5,7 +5,8 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  FlatList
 } from "react-native";
 
 import BookCount from "./components/BookCount";
@@ -37,11 +38,29 @@ export default class Appp extends Component {
         totalCount: state.totalCount + 1,
         readingCount: state.readingCount + 1
       }),
-      () => {
-        console.log(this.state.books);
-      }
+      () => {}
     );
   };
+  renderItem = (item, index) => (
+    <View style={{ height: 50, flexDirection: "row" }}>
+      <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
+        <Text>{item}</Text>
+      </View>
+      <TouchableOpacity onPress={() => this.addBook(this.state.textInputData)}>
+        <View
+          style={{
+            width: 100,
+            height: 50,
+            backgroundColor: "#a5deba",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Text>Mark as Read</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
 
   render() {
     return (
@@ -97,7 +116,16 @@ export default class Appp extends Component {
               </TouchableOpacity>
             </View>
           )}
-
+          <FlatList
+            data={this.state.books}
+            renderItem={({ item }, index) => this.renderItem(item, index)}
+            keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={
+              <View style={{ marginTop: 50, alignItems: "center" }}>
+                <Text style={{ fontWeight: "bold" }}>No Books yet</Text>
+              </View>
+            }
+          />
           <TouchableOpacity
             style={{ position: "absolute", bottom: 20, right: 20 }}
             onPress={this.showAddNewBook}
