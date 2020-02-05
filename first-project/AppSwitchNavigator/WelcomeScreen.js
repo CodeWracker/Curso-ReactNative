@@ -44,7 +44,7 @@ export default class WelcomeScreen extends Component {
           </CustomActionButton>
           <CustomActionButton
             title="Sign Up"
-            onPress={() => alert("Sign Up")}
+            onPress={() => this.props.navigation.navigate("SignUpScreen")}
             style={{
               width: 200,
               backgroundColor: "transparent",
