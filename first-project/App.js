@@ -11,6 +11,7 @@ import {
 
 import BookCount from "./components/BookCount";
 import { Ionicons } from "@expo/vector-icons";
+import CustomActionButton from "./components/CustomActionButton";
 
 export default class App extends Component {
   constructor() {
@@ -56,19 +57,12 @@ export default class App extends Component {
       <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
         <Text>{item}</Text>
       </View>
-      <TouchableOpacity onPress={() => this.markAsRead(item, index)}>
-        <View
-          style={{
-            width: 100,
-            height: 50,
-            backgroundColor: "#a5deba",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <Text>Mark as Read</Text>
-        </View>
-      </TouchableOpacity>
+      <CustomActionButton
+        onPress={() => this.markAsRead(item, index)}
+        style={{ width: 100, backgroundColor: "#a5deba" }}
+      >
+        <Text>Mark as Read</Text>
+      </CustomActionButton>
     </View>
   );
 
@@ -96,34 +90,15 @@ export default class App extends Component {
                 placeholderTextColor="grey"
                 onChangeText={text => this.setState({ textInputData: text })}
               ></TextInput>
-              <TouchableOpacity
+              <CustomActionButton
+                style={{ backgroundColor: "#a5deba" }}
                 onPress={() => this.addBook(this.state.textInputData)}
               >
-                <View
-                  style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: "#a5deba",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <Ionicons name="ios-checkmark" color="white" size={40} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.hideAddNewBook}>
-                <View
-                  style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: "#deada5",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <Ionicons name="ios-close" color="white" size={40} />
-                </View>
-              </TouchableOpacity>
+                <Ionicons name="ios-checkmark" color="white" size={40} />
+              </CustomActionButton>
+              <CustomActionButton onPress={this.hideAddNewBook}>
+                <Ionicons name="ios-close" color="white" size={40} />
+              </CustomActionButton>
             </View>
           )}
           <FlatList
@@ -136,23 +111,13 @@ export default class App extends Component {
               </View>
             }
           />
-          <TouchableOpacity
-            style={{ position: "absolute", bottom: 20, right: 20 }}
+          <CustomActionButton
             onPress={this.showAddNewBook}
+            style={{ backgroundColor: "#AAd1E6", borderRadius: 25 }}
+            position="right"
           >
-            <View
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                backgroundColor: "#AAd1E6",
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 30 }}>+</Text>
-            </View>
-          </TouchableOpacity>
+            <Text style={{ color: "white", fontSize: 30 }}>+</Text>
+          </CustomActionButton>
         </View>
         <View
           style={{
