@@ -12,6 +12,7 @@ import {
 import BookCount from "./components/BookCount";
 import { Ionicons } from "@expo/vector-icons";
 import CustomActionButton from "./components/CustomActionButton";
+import colors from "./assets/colors";
 
 export default class App extends Component {
   constructor() {
@@ -137,12 +138,12 @@ const styles = StyleSheet.create({
   },
   markAsReadButton: {
     width: 100,
-    backgroundColor: "#a5deba"
+    backgroundColor: colors.bgSucces
   },
   header: {
     height: 70,
     borderBottomWidth: 0.5,
-    borderBottomColor: "#E9E9E9",
+    borderBottomColor: colors.borderColor,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -155,10 +156,10 @@ const styles = StyleSheet.create({
   },
   textInputBox: {
     flex: 1,
-    backgroundColor: "#ececec"
+    backgroundColor: colors.bgTextInput
   },
   addNewBookButton: {
-    backgroundColor: "#a5deba"
+    backgroundColor: colors.bgSucces
   },
   emptyListContainer: {
     marginTop: 50,
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   showAddNewBookButton: {
-    backgroundColor: "#AAd1E6",
+    backgroundColor: colors.bgPrimary,
     borderRadius: 25
   },
   showAddNewBookText: {
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     height: 70,
     borderTopWidth: 0.5,
-    borderTopColor: "#E9E9E9",
+    borderTopColor: colors.borderColor,
     flexDirection: "row"
   }
 });
