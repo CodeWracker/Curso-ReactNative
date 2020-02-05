@@ -20,8 +20,6 @@ const CustomActionButton = ({ children, onPress, style, position }) => {
     </TouchableOpacity>
   );
 };
-export default CustomActionButton;
-
 CustomActionButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
@@ -30,6 +28,7 @@ CustomActionButton.propTypes = {
 CustomActionButton.defaultProps = {
   style: {}
 };
+export default CustomActionButton;
 
 const styles = StyleSheet.create({
   button: {
