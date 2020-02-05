@@ -16,7 +16,12 @@ import SignUpScreen from "./screens/SignUpScreen";
 const App = () => <AppContainer></AppContainer>;
 
 const LoginStackNavigator = createStackNavigator({
-  WelcomeScreen,
+  WelcomeScreen: {
+    screen: WelcomeScreen,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
   SignUpScreen
 });
 
