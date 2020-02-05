@@ -16,6 +16,7 @@ import HomeScreen from "./screens/HomeScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import { Ionicons } from "@expo/vector-icons";
 import SettingScreen from "./screens/SettingScreen";
+import CustomDrawerComponent from "./screens/DrawerNavigator/CustomDrawerComponent";
 
 const App = () => <AppContainer></AppContainer>;
 
@@ -29,22 +30,27 @@ const LoginStackNavigator = createStackNavigator({
   SignUpScreen
 });
 
-const AppDrawerNavigator = createDrawerNavigator({
-  HomeScreen: {
-    screen: HomeScreen,
-    navigationOptions: {
-      title: "Home",
-      drawerIcon: () => <Ionicons name="ios-home" size={24} />
+const AppDrawerNavigator = createDrawerNavigator(
+  {
+    HomeScreen: {
+      screen: HomeScreen,
+      navigationOptions: {
+        title: "Home",
+        drawerIcon: () => <Ionicons name="ios-home" size={24} />
+      }
+    },
+    SettingScreen: {
+      screen: SettingScreen,
+      navigationOptions: {
+        title: "Settings",
+        drawerIcon: () => <Ionicons name="ios-settings" size={24} />
+      }
     }
   },
-  SettingScreen: {
-    screen: SettingScreen,
-    navigationOptions: {
-      title: "Settings",
-      drawerIcon: () => <Ionicons name="ios-settings" size={24} />
-    }
+  {
+    contentComponent: CustomDrawerComponent
   }
-});
+);
 const AppSwitchNavigator = createSwitchNavigator({
   LoginStackNavigator,
   SignUpScreen,
