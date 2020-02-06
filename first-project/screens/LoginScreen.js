@@ -2,9 +2,41 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import colors from "../assets/colors";
 import CustomActionButton from "../components/CustomActionButton";
-import { color } from "react-native-reanimated";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 export default class LoginScreen extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+      isLoading: false
+    };
+  }
+
+  onSignIn = () => {};
+
+  onSignUp = async () => {
+    if (this.state.email && this.state.password) {
+      try {
+        const response = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(
+            this.state.email,
+            this.state.password
+          );
+      } catch (error) {
+        if (error.code == "auth/email-already-in-use") {
+          alert("User already exists. Try again");
+        }
+      }
+    }
+    else{
+      alert('Please enter the information')
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -14,20 +46,24 @@ export default class LoginScreen extends Component {
             placeholder="example@email.com"
             placeholderTextColor={colors.bgTextInputDark}
             keyboardType="email-address"
+            onChangeText={email => this.setState({ email })}
           />
           <TextInput
             placeholder="password"
             placeholderTextColor={colors.bgTextInputDark}
             style={styles.textInput}
             secureTextEntry
+            onChangeText={password => this.setState({ password })}
           />
           <View style={{ alignItems: "center" }}>
             <CustomActionButton
+              onPress={this.onSignIn}
               style={[styles.loginButtons, { borderColor: colors.bgPrimary }]}
             >
               <Text style={{ color: "white" }}>Login</Text>
             </CustomActionButton>
             <CustomActionButton
+              onPress={this.onSignUp}
               style={[styles.loginButtons, { borderColor: colors.bgError }]}
             >
               <Text style={{ color: "white" }}>Sign Up</Text>
