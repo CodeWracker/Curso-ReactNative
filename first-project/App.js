@@ -18,9 +18,21 @@ import { Ionicons } from "@expo/vector-icons";
 import SettingScreen from "./screens/SettingScreen";
 import CustomDrawerComponent from "./screens/DrawerNavigator/CustomDrawerComponent";
 import colors from "./assets/colors";
+import * as firebase from "firebase/app";
+import { firebaseConfig } from "./config/config";
 
-const App = () => <AppContainer></AppContainer>;
-
+class App extends Component {
+  constructor() {
+    super();
+    this.initializeFirebase();
+  }
+  initializeFirebase = () => {
+    firebase.initializeApp(firebaseConfig);
+  };
+  render() {
+    return <AppContainer></AppContainer>;
+  }
+}
 const LoginStackNavigator = createStackNavigator(
   {
     WelcomeScreen: {
