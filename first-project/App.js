@@ -13,22 +13,36 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import WelcomeScreen from "./AppSwitchNavigator/WelcomeScreen";
 import HomeScreen from "./screens/HomeScreen";
-import SignUpScreen from "./screens/SignUpScreen";
+import LoginScreen from "./screens/LoginScreen";
 import { Ionicons } from "@expo/vector-icons";
 import SettingScreen from "./screens/SettingScreen";
 import CustomDrawerComponent from "./screens/DrawerNavigator/CustomDrawerComponent";
+import colors from "./assets/colors";
 
 const App = () => <AppContainer></AppContainer>;
 
-const LoginStackNavigator = createStackNavigator({
-  WelcomeScreen: {
-    screen: WelcomeScreen,
-    navigationOptions: {
-      headerShown: false
+const LoginStackNavigator = createStackNavigator(
+  {
+    WelcomeScreen: {
+      screen: WelcomeScreen,
+      navigationOptions: {
+        headerShown: false
+      }
+    },
+    LoginScreen: {
+      screen: LoginScreen,
+      navigationOptions: {}
     }
   },
-  SignUpScreen
-});
+  {
+    mode: "modal",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: colors.bgMain
+      }
+    }
+  }
+);
 
 const AppDrawerNavigator = createDrawerNavigator(
   {
@@ -53,7 +67,7 @@ const AppDrawerNavigator = createDrawerNavigator(
 );
 const AppSwitchNavigator = createSwitchNavigator({
   LoginStackNavigator,
-  SignUpScreen,
+  LoginScreen,
   AppDrawerNavigator
 });
 
