@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ActivityIndicator
+} from "react-native";
 import colors from "../assets/colors";
 import CustomActionButton from "../components/CustomActionButton";
 import * as firebase from "firebase/app";
@@ -15,10 +21,34 @@ export default class LoginScreen extends Component {
     };
   }
 
-  onSignIn = () => {};
+  onSignIn = async () => {
+    if (this.state.email && this.state.password) {
+      this.setState({ isLoading: true });
+      try {
+        const response = await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password);
+        if (response) {
+          this.setState({ isLoading: false });
+        }
+      } catch (error) {
+        this.setState({ isLoading: false });
+        switch (error.code) {
+          case "auth/user-not-found":
+            alert("USer doesn't exist");
+            break;
+          case "auth/invalid-email":
+            alert("invalid email");
+        }
+      }
+    } else {
+      alert("Please enter the information");
+    }
+  };
 
   onSignUp = async () => {
     if (this.state.email && this.state.password) {
+      this.setState({ isLoading: true });
       try {
         const response = await firebase
           .auth()
@@ -26,20 +56,41 @@ export default class LoginScreen extends Component {
             this.state.email,
             this.state.password
           );
+        if (response) {
+          this.setState({ isLoading: false });
+        }
       } catch (error) {
+        this.setState({ isLoading: false });
         if (error.code == "auth/email-already-in-use") {
           alert("User already exists. Try again");
         }
       }
-    }
-    else{
-      alert('Please enter the information')
+    } else {
+      alert("Please enter the information");
     }
   };
 
   render() {
     return (
       <View style={styles.container}>
+        {this.state.isLoading ? (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 1000,
+                elevation: 1000
+              }
+            ]}
+          >
+            <ActivityIndicator
+              size="large"
+              color={colors.logoColor}
+            ></ActivityIndicator>
+          </View>
+        ) : null}
         <View style={{ flex: 1, justifyContent: "center" }}>
           <TextInput
             style={styles.textInput}
