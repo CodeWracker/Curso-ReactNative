@@ -30,6 +30,7 @@ export default class LoginScreen extends Component {
           .signInWithEmailAndPassword(this.state.email, this.state.password);
         if (response) {
           this.setState({ isLoading: false });
+          this.props.navigation.navigate("LoadingScreen");
         }
       } catch (error) {
         this.setState({ isLoading: false });
@@ -58,6 +59,7 @@ export default class LoginScreen extends Component {
           );
         if (response) {
           this.setState({ isLoading: false });
+          alert("Created");
         }
       } catch (error) {
         this.setState({ isLoading: false });

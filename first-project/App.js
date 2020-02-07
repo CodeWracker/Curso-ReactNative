@@ -20,7 +20,7 @@ import CustomDrawerComponent from "./screens/DrawerNavigator/CustomDrawerCompone
 import colors from "./assets/colors";
 import * as firebase from "firebase/app";
 import { firebaseConfig } from "./config/config";
-
+import LoadingScreen from "./screens/LoadingScreen";
 class App extends Component {
   constructor() {
     super();
@@ -78,6 +78,7 @@ const AppDrawerNavigator = createDrawerNavigator(
   }
 );
 const AppSwitchNavigator = createSwitchNavigator({
+  LoadingScreen,
   LoginStackNavigator,
   LoginScreen,
   AppDrawerNavigator
