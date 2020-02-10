@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import CustomActionButton from "../components/CustomActionButton";
 import colors from "../assets/colors";
 import * as firebase from "firebase/app";
+import { snapshotToArray } from "../helpers/firebaseHelpers";
 
 export default class HomeScreen extends Component {
   constructor() {
@@ -40,7 +41,19 @@ export default class HomeScreen extends Component {
       .ref("users")
       .child(user.uid)
       .once("value");
-    this.setState({ currentUser: currentUserData.val() });
+
+    const books = await firebase
+      .database()
+      .ref("books")
+      .child(user.uid)
+      .once("value");
+    const booksArray = snapshotToArray(books);
+    this.setState({
+      currentUser: currentUserData.val(),
+      books: booksArray,
+      booksReading: booksArray.filter(book => !book.read),
+      booksRead: booksArray.filter(book => book.read)
+    });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -90,8 +103,8 @@ export default class HomeScreen extends Component {
 
     this.setState(
       (state, props) => ({
-        books: [...state.books, book],
-        booksReading: [...state.booksReading, book],
+        books: [...state.books, { name: book, read: false }],
+        booksReading: [...state.booksReading, { name: book, read: false }],
         //totalCount: state.totalCount + 1,
         //readingCount: state.readingCount + 1,
         isAddNewBookVisible: false
@@ -101,14 +114,19 @@ export default class HomeScreen extends Component {
   };
 
   markAsRead = (selectedBook, index) => {
-    let books = this.state.books.filter(book => book !== selectedBook);
+    let books = this.state.books.map(book => {
+      if (book.name == selectedBook.name) {
+        return { ...book, read: true };
+      }
+      return book;
+    });
     let booksReading = this.state.booksReading.filter(
-      book => book !== selectedBook
+      book => book.name !== selectedBook.name
     );
     this.setState(prevState => ({
       books: books,
       booksReading: booksReading,
-      booksRead: [...prevState.booksRead, selectedBook]
+      booksRead: [...prevState.booksRead, { name: selectedBook, read: true }]
       //readingCount: prevState.readingCount - 1,
       //readCount: prevState.readCount + 1
     }));
@@ -117,14 +135,18 @@ export default class HomeScreen extends Component {
   renderItem = (item, index) => (
     <View style={styles.bookContainer}>
       <View style={styles.bookContent}>
-        <Text>{item}</Text>
+        <Text>{item.name}</Text>
       </View>
-      <CustomActionButton
-        onPress={() => this.markAsRead(item, index)}
-        style={styles.markAsReadButton}
-      >
-        <Text>Mark as Read</Text>
-      </CustomActionButton>
+      {item.read ? (
+        <Ionicons name="ios-checkmark" color={colors.logoColor} size={30} />
+      ) : (
+        <CustomActionButton
+          onPress={() => this.markAsRead(item, index)}
+          style={styles.markAsReadButton}
+        >
+          <Text>Mark as Read</Text>
+        </CustomActionButton>
+      )}
     </View>
   );
 
