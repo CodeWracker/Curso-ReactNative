@@ -8,6 +8,7 @@ const colors = {
   logoColor: "#bada55",
   bgMain: "#2e424d",
   txtWhite: "#fff",
-  bgTextInputDark: "#b6b6b6"
+  bgTextInputDark: "#b6b6b6",
+  bgListItem: "#354d58da"
 };
 export default colors;
