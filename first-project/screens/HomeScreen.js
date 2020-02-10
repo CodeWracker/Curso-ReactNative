@@ -17,6 +17,7 @@ import colors from "../assets/colors";
 import * as firebase from "firebase/app";
 import { snapshotToArray } from "../helpers/firebaseHelpers";
 import ListItem from "../components/ListItem";
+import * as Animatable from "react-native-animatable";
 
 export default class HomeScreen extends Component {
   constructor() {
@@ -37,7 +38,6 @@ export default class HomeScreen extends Component {
   componentDidMount = async () => {
     const { navigation } = this.props;
     const user = navigation.getParam("user");
-
     const currentUserData = await firebase
       .database()
       .ref("users")
@@ -167,7 +167,15 @@ export default class HomeScreen extends Component {
           <Text style={styles.headerTitle}>Book Worm</Text>
         </View>
         <View style={styles.container}>
-          {this.state.isAddNewBookVisible && (
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={styles.textInputBox}
+              placeholder="Enter Book Name"
+              placeholderTextColor={colors.txtPlaceholder}
+              onChangeText={text => this.setState({ textInputData: text })}
+            ></TextInput>
+          </View>
+          {/*{this.state.isAddNewBookVisible && (
             <View style={styles.textInputContainer}>
               <TextInput
                 style={styles.textInputBox}
@@ -185,7 +193,7 @@ export default class HomeScreen extends Component {
                 <Ionicons name="ios-close" color="white" size={40} />
               </CustomActionButton>
             </View>
-          )}
+          )}*/}
           <FlatList
             data={this.state.books}
             renderItem={({ item }, index) => this.renderItem(item, index)}
@@ -196,13 +204,15 @@ export default class HomeScreen extends Component {
               </View>
             }
           />
-          <CustomActionButton
-            onPress={this.showAddNewBook}
-            style={styles.showAddNewBookButton}
-            position="right"
-          >
-            <Text style={styles.showAddNewBookText}>+</Text>
-          </CustomActionButton>
+          <Animatable.View>
+            <CustomActionButton
+              position="right"
+              style={styles.showAddNewBookButton}
+              onPress={() => this.addBook(this.state.textInputData)}
+            >
+              <Text style={styles.showAddNewBookText}>+</Text>
+            </CustomActionButton>
+          </Animatable.View>
         </View>
         <View style={styles.footerContainer}>
           <BookCount title="Total" count={this.state.books.length} />
@@ -237,11 +247,18 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     height: 50,
-    flexDirection: "row"
+    flexDirection: "row",
+    margin: 5
   },
   textInputBox: {
     flex: 1,
-    backgroundColor: colors.bgTextInput
+    backgroundColor: "transparent",
+    paddingLeft: 5,
+    borderColor: colors.bgListItem,
+    borderBottomWidth: 5,
+    fontSize: 22,
+    fontWeight: "200",
+    color: colors.txtWhite
   },
   addNewBookButton: {
     backgroundColor: colors.bgSucces
