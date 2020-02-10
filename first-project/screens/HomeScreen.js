@@ -13,11 +13,13 @@ import BookCount from "../components/BookCount";
 import { Ionicons } from "@expo/vector-icons";
 import CustomActionButton from "../components/CustomActionButton";
 import colors from "../assets/colors";
+import * as firebase from "firebase/app";
 
 export default class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
+      currentUser: {},
       totalCount: 0,
       readingCount: 0,
       readCount: 0,
@@ -29,19 +31,70 @@ export default class HomeScreen extends Component {
     };
   }
 
+  componentDidMount = async () => {
+    const { navigation } = this.props;
+    const user = navigation.getParam("user");
+
+    const currentUserData = await firebase
+      .database()
+      .ref("users")
+      .child(user.uid)
+      .once("value");
+    this.setState({ currentUser: currentUserData.val() });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.readCount < this.state.readCount) {
+      console.log("fetch data");
+    }
+  }
+  componentWillUnmount() {}
+
   showAddNewBook = () => {
     this.setState({ isAddNewBookVisible: true });
   };
   hideAddNewBook = () => {
     this.setState({ isAddNewBookVisible: false });
   };
-  addBook = book => {
+  addBook = async book => {
+    try {
+      //books
+      //users.id(key)
+      //books data
+      const snapshot = await firebase
+        .database()
+        .ref("books")
+        .child(this.state.currentUser.uid)
+        .orderByChild("name")
+        .equalTo(book)
+        .once("value");
+      if (snapshot.exists()) {
+        alert("book already exists");
+      } else {
+        const key = await firebase
+          .database()
+          .ref("books")
+          .child(this.state.currentUser.uid)
+          .push().key;
+
+        const response = await firebase
+          .database()
+          .ref("books")
+          .child(this.state.currentUser.uid)
+          .child(key)
+          .set({ name: book, read: false });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     this.setState(
       (state, props) => ({
         books: [...state.books, book],
-        booksReading: [...state.booksReading, book]
+        booksReading: [...state.booksReading, book],
         //totalCount: state.totalCount + 1,
-        //readingCount: state.readingCount + 1
+        //readingCount: state.readingCount + 1,
+        isAddNewBookVisible: false
       }),
       () => {}
     );
