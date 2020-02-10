@@ -10,6 +10,18 @@ import colors from "../assets/colors";
 import CustomActionButton from "../components/CustomActionButton";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/database";
+
+import { YellowBox } from "react-native";
+import _ from "lodash";
+
+YellowBox.ignoreWarnings(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = message => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
 
 export default class LoginScreen extends Component {
   constructor() {
@@ -59,7 +71,13 @@ export default class LoginScreen extends Component {
           );
         if (response) {
           this.setState({ isLoading: false });
-          alert("Created");
+          const user = await firebase
+            .database()
+            .ref("users/")
+            .child(response.user.uid)
+            .set({ email: response.user.email, uid: response.user.uid });
+          this.props.navigation.navigate("LoadingScreen");
+          //alert("Created");
         }
       } catch (error) {
         this.setState({ isLoading: false });

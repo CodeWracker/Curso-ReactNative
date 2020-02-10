@@ -23,7 +23,9 @@ export default class HomeScreen extends Component {
       readCount: 0,
       isAddNewBookVisible: false,
       textInputData: "",
-      books: []
+      books: [],
+      booksReading: [],
+      booksRead: []
     };
   }
 
@@ -37,19 +39,25 @@ export default class HomeScreen extends Component {
     this.setState(
       (state, props) => ({
         books: [...state.books, book],
-        totalCount: state.totalCount + 1,
-        readingCount: state.readingCount + 1
+        booksReading: [...state.booksReading, book]
+        //totalCount: state.totalCount + 1,
+        //readingCount: state.readingCount + 1
       }),
       () => {}
     );
   };
 
   markAsRead = (selectedBook, index) => {
-    let newList = this.state.books.filter(book => book !== selectedBook);
+    let books = this.state.books.filter(book => book !== selectedBook);
+    let booksReading = this.state.booksReading.filter(
+      book => book !== selectedBook
+    );
     this.setState(prevState => ({
-      books: newList,
-      readingCount: prevState.readingCount - 1,
-      readCount: prevState.readCount + 1
+      books: books,
+      booksReading: booksReading,
+      booksRead: [...prevState.booksRead, selectedBook]
+      //readingCount: prevState.readingCount - 1,
+      //readCount: prevState.readCount + 1
     }));
   };
 
@@ -113,9 +121,9 @@ export default class HomeScreen extends Component {
           </CustomActionButton>
         </View>
         <View style={styles.footerContainer}>
-          <BookCount title="Total" count={this.state.totalCount} />
-          <BookCount title="Reading" count={this.state.readingCount} />
-          <BookCount title="Read" count={this.state.readCount} />
+          <BookCount title="Total" count={this.state.books.length} />
+          <BookCount title="Reading" count={this.state.booksReading.length} />
+          <BookCount title="Read" count={this.state.booksRead.length} />
         </View>
         <SafeAreaView />
       </View>
