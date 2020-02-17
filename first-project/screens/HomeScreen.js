@@ -204,7 +204,8 @@ export default class HomeScreen extends Component {
               </View>
             }
           />
-          <Animatable.View>
+
+          <Animatable.View animation="bounceIn" delay={1000}>
             <CustomActionButton
               position="right"
               style={styles.showAddNewBookButton}
